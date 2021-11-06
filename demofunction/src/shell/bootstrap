@@ -1,0 +1,8 @@
+#!/bin/sh
+
+cd ${LAMBDA_TASK_ROOT:-.}
+
+./demofunction
+#./demo -Daws.accessKeyId=$AWS_ACCESS_KEY_ID -Daws.secretAccessKey=$AWS_SECRET_ACCESS_KEY
+
+
