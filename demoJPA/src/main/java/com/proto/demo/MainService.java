@@ -20,8 +20,8 @@ public class MainService {
     History n = new History();
     n.setCustomerId(31103110);
     n.setPoint(100);
-    n.setType("Spring-JPA");
-    n.setProperties("testSpringJPA");
+    n.setType("Java(SpringNative)");
+    n.setProperties("Spring Data JPA");
     n.setUpdatedByUser("test_user");
     n.setLastUpdatedAt(new Timestamp(System.currentTimeMillis()));
     hisRepository.save(n);

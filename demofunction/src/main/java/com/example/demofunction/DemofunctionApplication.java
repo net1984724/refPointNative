@@ -33,17 +33,13 @@ public class DemofunctionApplication {
 //      private static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
           
     public String handleRequest(Mono<Map<String, Object>> input) {
-//        System.out.println(input);
-  
           Connection conn = null;
           Statement stmt = null;
           try {
               conn = DriverManager.getConnection(CONNECTION_STRING, USERNAME, PASSWORD);
-//              System.out.println("Connected successfully to database...");
               stmt = conn.createStatement();
               String sql = "INSERT INTO history (customer_id, point, type, properties, updated_by_user, updated_datetime) VALUES (3110, 100, 'Java(SpringNative)', 'JDBC Test', 'testUser', current_timestamp)";
               stmt.executeUpdate(sql);
-//              System.out.println("insert data.");
           } catch (SQLException se) {
               //Handle errors for JDBC
               se.printStackTrace();
