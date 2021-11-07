@@ -14,9 +14,8 @@ public class FooController {
     MainService srv;
 
     public String apply(Mono<Map<String, Object>> input) {
-        //MainService srv = new MainService();
-        srv.addPoint();
+        String username = (String) input.filter(i -> i.containsKey("cognito:username")).block().get("cognito:username");
+        srv.addPoint(username);
         return "apply end.";
-    }
-    
+    }   
 }

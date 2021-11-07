@@ -13,7 +13,7 @@ public class MainService {
   @Autowired
   HistoryRepository hisRepository;
 
-  public  String addPoint () {
+  public  String addPoint (String username) {
     // @ResponseBody means the returned String is the response, not a view name
     // @RequestParam means it is a parameter from the GET or POST request
 
@@ -22,7 +22,7 @@ public class MainService {
     n.setPoint(100);
     n.setType("Java(SpringNative)");
     n.setProperties("Spring Data JPA");
-    n.setUpdatedByUser("test_user");
+    n.setUpdatedByUser(username);
     n.setLastUpdatedAt(new Timestamp(System.currentTimeMillis()));
     hisRepository.save(n);
     return "Saved";

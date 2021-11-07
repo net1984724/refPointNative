@@ -33,35 +33,37 @@ public class DemofunctionApplication {
 //      private static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
           
     public String handleRequest(Mono<Map<String, Object>> input) {
-          Connection conn = null;
-          Statement stmt = null;
-          try {
-              conn = DriverManager.getConnection(CONNECTION_STRING, USERNAME, PASSWORD);
-              stmt = conn.createStatement();
-              String sql = "INSERT INTO history (customer_id, point, type, properties, updated_by_user, updated_datetime) VALUES (3110, 100, 'Java(SpringNative)', 'JDBC Test', 'testUser', current_timestamp)";
-              stmt.executeUpdate(sql);
-          } catch (SQLException se) {
-              //Handle errors for JDBC
-              se.printStackTrace();
-          } catch (Exception e) {
-              //Handle errors for Class.forName
-              e.printStackTrace();
-          } finally {
-              //finally block used to close resources
-              try {
-                  if (stmt != null) {
-                      conn.close();
-                  }
-              } catch (SQLException se) {
-              }// do nothing
-              try {
-                  if (conn != null) {
-                      conn.close();
-                  }
-              } catch (SQLException se) {
-                  se.printStackTrace();
-              }//end finally try
-          }//end try
-          return "complete";
-      }
+        Connection conn = null;
+        Statement stmt = null;
+        try {
+            conn = DriverManager.getConnection(CONNECTION_STRING, USERNAME, PASSWORD);
+            stmt = conn.createStatement();
+            String username = (String) input.filter(i -> i.containsKey("cognito:username")).block().get("cognito:username");
+            String sql = "INSERT INTO history (customer_id, point, type, properties, updated_by_user, updated_datetime) VALUES (3110, 100, 'Java(SpringNative)', 'JDBC Test', "+ "'" + username + "', current_timestamp)";
+//            sql = String.format(username);
+            stmt.executeUpdate(sql);
+        } catch (SQLException se) {
+            //Handle errors for JDBC
+            se.printStackTrace();
+        } catch (Exception e) {
+            //Handle errors for Class.forName
+            e.printStackTrace();
+        } finally {
+            //finally block used to close resources
+            try {
+                if (stmt != null) {
+                    conn.close();
+                }
+            } catch (SQLException se) {
+            }// do nothing
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException se) {
+                se.printStackTrace();
+            }//end finally try
+        }//end try
+        return "complete";
+    }
 }
