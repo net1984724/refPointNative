@@ -40,7 +40,7 @@ public class DemofunctionApplication {
         try {
             conn = DriverManager.getConnection(CONNECTION_STRING, USERNAME, PASSWORD);
             stmt = conn.createStatement();
-            Map<String, Object> authMap = (Map<String, Object>) ((Map<String, Object>) value.getPayload().get("requestContext")).get("authorizer");
+            Map<String, Object> authMap = (Map<String, Object>) ((Map<String, Object>) input.getPayload().get("requestContext")).get("authorizer");
             Map<String, Object> userMap = (Map<String, Object>) authMap.get("claims");
             String username = (String)userMap.get("cognito:username");
             String sql = "INSERT INTO history (customer_id, point, type, properties, updated_by_user, updated_datetime) VALUES (3110, 100, 'Java(SpringNative)', 'JDBC Test', "+ "'" + username + "', current_timestamp)";
