@@ -10,8 +10,7 @@ import java.util.function.Function;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-
-import reactor.core.publisher.Mono;
+import org.springframework.messaging.Message;
 
 @SpringBootApplication
 public class DemofunctionApplication {
@@ -21,7 +20,7 @@ public class DemofunctionApplication {
 	}
 
 	@Bean
-    public Function<Mono<Map<String, Object>>, String> handler() {
+    public Function<Message<Map<String, Object>>, Message<Map<String, Object>>> handler() {
         return request -> handleRequest(request);
     }
 
@@ -32,22 +31,33 @@ public class DemofunctionApplication {
   //   private static final String JDBC_DRIVER = "org.mariadb.jdbc.Driver";
 //      private static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
           
-    public String handleRequest(Mono<Map<String, Object>> input) {
+    public Message<Map<String, Object>> handleRequest(Message<Map<String, Object>> input) {
         Connection conn = null;
         Statement stmt = null;
+        HashMap<String, Object> returnMap = new HashMap<String, Object>();
         try {
             conn = DriverManager.getConnection(CONNECTION_STRING, USERNAME, PASSWORD);
             stmt = conn.createStatement();
-            String username = (String) input.filter(i -> i.containsKey("cognito:username")).block().get("cognito:username");
+            Map<String, Object> authMap = (Map<String, Object>) ((Map<String, Object>) value.getPayload().get("requestContext")).get("authorizer");
+            Map<String, Object> userMap = (Map<String, Object>) authMap.get("claims");
+            String username = (String)userMap.get("cognito:username");
             String sql = "INSERT INTO history (customer_id, point, type, properties, updated_by_user, updated_datetime) VALUES (3110, 100, 'Java(SpringNative)', 'JDBC Test', "+ "'" + username + "', current_timestamp)";
 //            sql = String.format(username);
             stmt.executeUpdate(sql);
+
+            returnMap.put("statusCode", 201);
+            returnMap.put("body", "data inserted successfully!");
+
         } catch (SQLException se) {
             //Handle errors for JDBC
             se.printStackTrace();
+            returnMap.put("statusCode", 500);
+            returnMap.put("body", "SQLException!");
         } catch (Exception e) {
             //Handle errors for Class.forName
             e.printStackTrace();
+            returnMap.put("statusCode", 500);
+            returnMap.put("body", "Exception!");
         } finally {
             //finally block used to close resources
             try {
@@ -62,8 +72,12 @@ public class DemofunctionApplication {
                 }
             } catch (SQLException se) {
                 se.printStackTrace();
+                returnMap.put("statusCode", 500);
+                returnMap.put("body", "finally SQLException!");
             }//end finally try
         }//end try
-        return "complete";
+//        return "complete";
+        Message<Map<String, Object>> message = MessageBuilder.withPayload((Map<String, Object>)returnMap).setHeader("Access-Control-Allow-Origin", "*").build();
+        return message;
     }
 }
