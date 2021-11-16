@@ -9,6 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.messaging.Message;
 
 import reactor.core.publisher.Mono;
 
@@ -25,7 +26,7 @@ public class DemoApplication {
 	}
 
 	@Bean
-    public Function<Mono<Map<String, Object>>, String> handler() {
+    public Function<Message<Map<String, Object>>, Message<Map<String, Object>>> handler() {
 		return request -> foo.apply(request);
     }
 
