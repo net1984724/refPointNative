@@ -1,6 +1,7 @@
 package com.proto.demo;
 
 import java.util.Map;
+import java.util.HashMap;
 import java.util.function.Function;
 
 import com.amazonaws.services.rdsdata.AWSRDSData;
