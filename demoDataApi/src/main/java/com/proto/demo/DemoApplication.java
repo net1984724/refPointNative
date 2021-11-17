@@ -32,9 +32,13 @@ public class DemoApplication {
 
     public Message<Map<String, Object>> handleRequest(Message<Map<String, Object>> input) {
 
-		Map<String, Object> bodyMap = (Map<String, Object>) ((Map<String, Object>) input.getPayload().get("body"));
-		int customerId = (Integer) bodyMap.get("CustomerId");
-        int pointValue = (Integer) bodyMap.get("Points");
+        String main = (String) input.getPayload().get("body");
+        String id = main.split(",")[0];
+        id = id.split(":")[1];
+        String point = main.split(",")[1];
+        point = point.replace("}", "").split(":")[1];
+        int customerId = Integer.parseInt(id);
+        int pointValue = Integer.parseInt(point);
 
 		Map<String, Object> authMap = (Map<String, Object>) ((Map<String, Object>) input.getPayload().get("requestContext")).get("authorizer");
 		Map<String, Object> userMap = (Map<String, Object>) authMap.get("claims");
