@@ -54,6 +54,7 @@ public class DemoApplication {
                 .withSecretArn(SECRET_ARN)
                 .withDatabase("pointsystem")
                 .withSql(sql);
+        rdsData.executeStatement(rdsRequest);
 //        RdsDataClient client = RdsDataClient.builder().build();
 
         HashMap<String, Object> returnMap = new HashMap<String, Object>();
