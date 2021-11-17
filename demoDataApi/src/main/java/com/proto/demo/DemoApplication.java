@@ -29,7 +29,7 @@ public class DemoApplication {
 
 	public static final String RESOURCE_ARN = "arn:aws:rds:us-east-2:079862682662:cluster:pointsystem";
     public static final String SECRET_ARN = "arn:aws:secretsmanager:us-east-2:079862682662:secret:point-mysql-B3EQyV";
-          
+
     public Message<Map<String, Object>> handleRequest(Message<Map<String, Object>> input) {
 
 		Map<String, Object> bodyMap = (Map<String, Object>) ((Map<String, Object>) input.getPayload().get("body"));

@@ -183,6 +183,9 @@
 								</goals>
 							</execution>
 						</executions>
+						<configuration>
+							<buildArgs>--enable-url-protocols=http</buildArgs>
+						</configuration>
 					</plugin>
 					<!-- Creates the .zip with bootstrap and native image -->
 					<plugin>
