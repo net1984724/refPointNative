@@ -1,6 +1,5 @@
 package com.proto.demo;
 
-import javax.persistence.*;
 import java.sql.Timestamp;
 
 import org.springframework.data.annotation.Id;
