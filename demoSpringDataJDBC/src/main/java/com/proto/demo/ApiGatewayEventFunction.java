@@ -33,9 +33,12 @@ public class ApiGatewayEventFunction implements Function<Message<Map<String, Obj
         hist.setType("SpringNative");
         hist.setProperties("SpringDataJDBC");
 
-        Map<String, Object> authMap = (Map<String, Object>) ((Map<String, Object>) input.getPayload().get("requestContext")).get("authorizer");
-        Map<String, Object> userMap = (Map<String, Object>) authMap.get("claims");
-        String username = (String)userMap.get("cognito:username");
+       // Map<String, Object> authMap = (Map<String, Object>) ((Map<String, Object>) input.getPayload().get("requestContext")).get("authorizer");
+        //Map<String, Object> userMap = (Map<String, Object>) authMap.get("claims");
+        //String username = (String)userMap.get("cognito:username");
+        String username = main.split(",")[2];
+        username = username.replace("}", "").split(":")[1];
+        System.out.println(username);
         hist.setUpdated_by_user(username);
 
         hist.setUpdated_datetime(new Timestamp(System.currentTimeMillis()));
