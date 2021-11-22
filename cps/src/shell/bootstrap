@@ -3,5 +3,3 @@
 cd ${LAMBDA_TASK_ROOT:-.}
 
 ./cps
-
-
