@@ -44,7 +44,7 @@ public class ApiGatewayEventFunction implements Function<Message<Map<String, Obj
         hist.setUpdated_datetime(new Timestamp(System.currentTimeMillis()));
 
         History save = hisRepository.save(hist);
-        System.out.print(save.getId());
+        System.out.println(save.getId());
 
         HashMap<String, Object> returnMap = new HashMap<String, Object>();
         returnMap.put("statusCode", 201);
